@@ -1,5 +1,8 @@
 ﻿<%@ Master Language="VB" AutoEventWireup="true" CodeBehind="Site.master.vb" Inherits="ProyectoFinalProgra3.SiteMaster" %>
 
+<%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="uc1" TagName="ViewSwitcher" %>
+
+
 <!DOCTYPE html>
 
 <html lang="es">
@@ -40,16 +43,15 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Nombre de la aplicación</a>
+                               <a class="navbar-brand" runat="server" id="lnkHome" onserverclick="CerrarSesion_Click" href="~/login.aspx">Proyecto Final</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <uc1:ViewSwitcher runat="server" id="ViewSwitcher" />
+                    class="navbar-toggler-icon"></span><a href="Web.config">Web.config</a>
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Acerca de</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" id="lnkLogin" onserverclick="CerrarSesion_Click" runat="server" href="~/login.aspx">Login</a></li>
                     </ul>
                 </div>
             </div>
