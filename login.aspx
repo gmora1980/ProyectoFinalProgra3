@@ -27,7 +27,7 @@
 
     <div class="text-center mt-4">
         <a style="font-family:'Times New Roman'; font-size:x-large; color: indigo" href="Registro.aspx">¿Primera vez que ingresa? (Pacientes)</a>
-        <a style="font-family:'Times New Roman'; font-size:x-large; color: indigo" href="Registro.aspx">¿Primera vez que ingresa? (Medico)</a>
+        <a style="font-family:'Times New Roman'; font-size:x-large; color: indigo" href="Registrar.aspx">¿Primera vez que ingresa? (Medico)</a>
     </div>
 
     <asp:Label ID="lblError" runat="server" Text="" CssClass="alert alert-danger" Visible="false"></asp:Label>
