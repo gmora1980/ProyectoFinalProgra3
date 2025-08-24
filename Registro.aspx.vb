@@ -47,54 +47,51 @@ Public Class Registro
             Return False
         End Try
     End Function
-
     Protected Sub btnRegistrar_Click(sender As Object, e As EventArgs)
-        Try
-            If String.IsNullOrWhiteSpace(txtNombre.Text) OrElse
-   String.IsNullOrWhiteSpace(txtApellido.Text) OrElse
-   String.IsNullOrWhiteSpace(txtFecha_Nacimiento.Text) OrElse
-   String.IsNullOrWhiteSpace(txtTelefono.Text) OrElse
-   String.IsNullOrWhiteSpace(txtEmail.Text) OrElse
-   String.IsNullOrWhiteSpace(txtNombreUsuario.Text) OrElse
-   String.IsNullOrWhiteSpace(txtPass.Text) Then
-                LimpiarCampos()
-                ScriptManager.RegisterStartupScript(
+        If String.IsNullOrWhiteSpace(txtNombre.Text) OrElse
+String.IsNullOrWhiteSpace(txtApellido.Text) OrElse
+String.IsNullOrWhiteSpace(txtFecha_Nacimiento.Text) OrElse
+String.IsNullOrWhiteSpace(txtTelefono.Text) OrElse
+String.IsNullOrWhiteSpace(txtEmail.Text) OrElse
+String.IsNullOrWhiteSpace(txtNombreUsuario.Text) OrElse
+String.IsNullOrWhiteSpace(txtPass.Text) Then
+            LimpiarCampos()
+            ScriptManager.RegisterStartupScript(
+    Me, Me.GetType(),
+    "CamposVacios",
+    "Swal.fire('Por favor, complete todos los campos.');",
+    True)
+            Return
+        End If
+        Dim clave As String = txtPass.Text.Trim()
+        Dim wrapper As New Simple3Des("Encriptacion123")
+        Dim passwordEncriptada As String = wrapper.EncryptData(clave)
+        Dim usuarioNuevo As New Usuarios() With {
+            .NombreUsuario = txtNombreUsuario.Text.Trim(),
+            .PasswordHash = passwordEncriptada,
+            .RolId = 1 ' Rol de médico
+        }
+        Dim pacienteNuevo As New Pacientes() With {
+            .Nombre = txtNombre.Text.Trim(),
+            .Apellidos = txtApellido.Text.Trim(),
+            .FechaNacimiento = DateTime.Parse(txtFecha_Nacimiento.Text.Trim()),
+            .Telefono = txtTelefono.Text.Trim(),
+            .Correo = txtEmail.Text.Trim()
+        }
+
+        If RegistrarPaciente(usuarioNuevo, pacienteNuevo) Then
+            ScriptManager.RegisterStartupScript(
         Me, Me.GetType(),
-        "CamposVacios",
-        "Swal.fire('Por favor, complete todos los campos.');",
+        "RegistroExitoso",
+        "Swal.fire('Registro exitoso.');",
         True)
-                Return
-            End If
-            Dim usuarioNuevo As New Usuarios() With {
-        .NombreUsuario = txtNombreUsuario.Text.Trim(),
-        .PasswordHash = txtPass.Text.Trim(),
-        .RolId = 1 ' Rol de médico
-    }
-            Dim pacienteNuevo As New Pacientes() With {
-        .Nombre = txtNombre.Text.Trim(),
-        .Apellidos = txtApellido.Text.Trim(),
-        .FechaNacimiento = DateTime.Parse(txtFecha_Nacimiento.Text.Trim()),
-        .Telefono = txtTelefono.Text.Trim(),
-        .Correo = txtEmail.Text.Trim()
-    }
-
-            If RegistrarPaciente(usuarioNuevo, pacienteNuevo) Then
-                ScriptManager.RegisterStartupScript(
-            Me, Me.GetType(),
-            "RegistroExitoso",
-            "Swal.fire('Registro exitoso.');",
-            True)
-                LimpiarCampos()
-            Else
-                ScriptManager.RegisterStartupScript(
-            Me, Me.GetType(),
-            "ErrorRegistro",
-            "Swal.fire('Error al registrar.');",
-            True)
-            End If
-        Catch ex As Exception
-
-        End Try
-
+            LimpiarCampos()
+        Else
+            ScriptManager.RegisterStartupScript(
+        Me, Me.GetType(),
+        "ErrorRegistro",
+        "Swal.fire('Error al registrar.');",
+        True)
+        End If
     End Sub
 End Class
